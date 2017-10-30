@@ -1005,4 +1005,25 @@ public class TestUpdateAttribute {
         }
     }
 
+    @Test
+    public void testAttributeNameFromExpression() throws Exception {
+        final TestRunner runner = TestRunners.newTestRunner(new UpdateAttribute());
+        runner.setProperty("Attr_${a}", "${a:equals('b'):toString()}");
+        runner.setProperty("${attr2}", "some_format");
+
+        final Map<String, String> attributes = new HashMap<>();
+        attributes.put("a", "b");
+        attributes.put("attr2", "sql.args.7.format");
+        runner.enqueue(new byte[0], attributes);
+
+        runner.run();
+
+        runner.assertAllFlowFilesTransferred(UpdateAttribute.REL_SUCCESS, 1);
+        final MockFlowFile mockFlowFile = runner.getFlowFilesForRelationship(UpdateAttribute.REL_SUCCESS).get(0);
+
+        mockFlowFile.assertAttributeExists("Attr_b");
+        mockFlowFile.assertAttributeEquals("Attr_b", "true");
+        mockFlowFile.assertAttributeExists("sql.args.7.format");
+        mockFlowFile.assertAttributeEquals("sql.args.7.format", "some_format");
+    }
 }

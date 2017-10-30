@@ -621,7 +621,7 @@ public class UpdateAttribute extends AbstractProcessor implements Searchable {
         // go through each action
         boolean debugEnabled = this.debugEnabled;
         for (final Action action : actions.values()) {
-            String attribute = action.getAttribute();
+            String attribute = getPropertyValue(action.getAttribute(), context).evaluateAttributeExpressions(flowfile, null, null, stateInitialAttributes).getValue();
             if (DELETE_ATTRIBUTES_EXPRESSION_NAME.equals(attribute)) {
                 try {
                     final String actionValue = action.getValue();
