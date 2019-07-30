@@ -603,6 +603,11 @@ public class StandardConnectionDAO extends ComponentDAO implements ConnectionDAO
             connection.setDestination(newDestination);
         }
 
+        // update the style if necessary
+        if (isNotNull(connectionDTO.getStyle())) {
+            connection.setStyle(connectionDTO.getStyle());
+        }
+
         return connection;
     }
 

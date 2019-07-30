@@ -681,6 +681,7 @@ public final class DtoFactory {
         dto.setName(connection.getName());
         dto.setLabelIndex(connection.getLabelIndex());
         dto.setzIndex(connection.getZIndex());
+        dto.setStyle(connection.getStyle());
         dto.setSource(createConnectableDto(connection.getSource()));
         dto.setDestination(createConnectableDto(connection.getDestination()));
         dto.setVersionedComponentId(connection.getVersionedComponentId().orElse(null));
@@ -3937,6 +3938,7 @@ public final class DtoFactory {
         copy.setPrioritizers(copy(original.getPrioritizers()));
         copy.setSource(original.getSource());
         copy.setzIndex(original.getzIndex());
+        copy.setStyle(copy(original.getStyle()));
         copy.setLabelIndex(original.getLabelIndex());
         copy.setBends(copy(original.getBends()));
         copy.setLoadBalancePartitionAttribute(original.getLoadBalancePartitionAttribute());

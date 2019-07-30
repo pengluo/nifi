@@ -20,6 +20,7 @@ import io.swagger.annotations.ApiModelProperty;
 
 import javax.xml.bind.annotation.XmlType;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -44,6 +45,7 @@ public class ConnectionDTO extends ComponentDTO {
     private String flowFileExpiration;
     private List<String> prioritizers;
     private List<PositionDTO> bends;
+    private Map<String, String> style;
 
     private String loadBalanceStrategy;
     private String loadBalancePartitionAttribute;
@@ -108,6 +110,20 @@ public class ConnectionDTO extends ComponentDTO {
 
     public void setBends(List<PositionDTO> bends) {
         this.bends = bends;
+    }
+
+    /**
+     * @return The styles for this processor. (Currently only supports color)
+     */
+    @ApiModelProperty(
+            value = "Styles for the processor (background-color : #eee)."
+    )
+    public Map<String, String> getStyle() {
+        return style;
+    }
+
+    public void setStyle(Map<String, String> style) {
+        this.style = style;
     }
 
     /**

@@ -633,6 +633,23 @@
                         }
                     });
 
+                // update the connection color
+                connection.select('path.connection-path')
+                    .style('stroke', function (d) {
+                         if (!d.permissions.canRead) {
+                             return null;
+                         }
+
+                         var color = nfConnection.defaultLineColor();
+
+                         // use the specified color if appropriate
+                         if (nfCommon.isDefinedAndNotNull(d.component.style['background-color'])) {
+                             color = d.component.style['background-color'];
+                         }
+
+                         return color;
+                    });
+
                 // -----
                 // bends
                 // -----
@@ -1147,6 +1164,22 @@
                             // there is no connection name, remove the previous if necessary
                             connectionName.remove();
                         }
+
+                        // -----------------------
+                        // connection style
+                        // -----------------------
+                        var connectionPath = connection.select('path.connection-path');
+                        connectionPath.style('stroke', function (d) {
+                          var color = nfConnection.defaultLineColor();
+
+                          // use the specified color if appropriate
+                          if (nfCommon.isDefinedAndNotNull(d.component.style['background-color'])) {
+                              color = d.component.style['background-color'];
+                          }
+
+                          return color;
+                        });
+
                     } else {
                         // no permissions to read to remove previous if necessary
                         connectionFrom.remove();
@@ -2295,6 +2328,13 @@
 
             expire(addedCache);
             expire(removedCache);
+        },
+
+        /**
+         * Returns the default color that should be used when drawing a label.
+         */
+        defaultLineColor: function () {
+            return '#000000';
         }
     };
 

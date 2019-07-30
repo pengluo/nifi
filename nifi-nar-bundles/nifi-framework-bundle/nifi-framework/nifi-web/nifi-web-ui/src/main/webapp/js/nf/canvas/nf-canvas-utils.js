@@ -1048,11 +1048,16 @@
                 var label = d3.select(this);
                 return nfCanvasUtils.isLabel(label) && nfCanvasUtils.canModify(label);
             });
+            var selectedConnections = selection.filter(function(d) {
+                var connection = d3.select(this);
+                return nfCanvasUtils.isConnection(connection) && nfCanvasUtils.canModify(connection);
+            });
 
             var allProcessors = selectedProcessors.size() === selection.size();
             var allLabels = selectedLabels.size() === selection.size();
+            var allConnections = selectedConnections.size() == selection.size();
 
-            return allProcessors || allLabels;
+            return allProcessors || allLabels || allConnections;
         },
 
         /**

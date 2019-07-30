@@ -26,6 +26,7 @@ import org.apache.nifi.processor.Relationship;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 public interface Connection extends Authorizable, VersionedComponent {
@@ -59,6 +60,10 @@ public interface Connection extends Authorizable, VersionedComponent {
     long getZIndex();
 
     void setZIndex(long zIndex);
+
+    Map<String, String> getStyle();
+
+    void setStyle(Map<String, String> style);
 
     Connectable getSource();
 

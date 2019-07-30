@@ -257,6 +257,8 @@ public class FlowFromDOMFactory {
         }
         dto.setBends(bends);
 
+        dto.setStyle(getStyle(DomUtils.getChild(element, "styles")));
+
         final ConnectableDTO sourceConnectable = new ConnectableDTO();
         dto.setSource(sourceConnectable);
         sourceConnectable.setId(getString(element, "sourceId"));

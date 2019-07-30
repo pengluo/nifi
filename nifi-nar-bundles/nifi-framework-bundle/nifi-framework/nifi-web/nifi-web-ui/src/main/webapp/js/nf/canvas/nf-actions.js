@@ -1564,15 +1564,19 @@
          */
         fillColor: function (selection) {
             if (nfCanvasUtils.isColorable(selection)) {
-                // we know that the entire selection is processors or labels... this
+                // we know that the entire selection is processors or labels or connections... this
                 // checks if the first item is a processor... if true, all processors
                 var allProcessors = nfCanvasUtils.isProcessor(selection);
+                var allLabels = nfCanvasUtils.isLabel(selection);
+                var allConnections = nfCanvasUtils.isConnection(selection);
 
                 var color;
                 if (allProcessors) {
                     color = nfProcessor.defaultFillColor();
-                } else {
+                } else if(allLabels) {
                     color = nfLabel.defaultColor();
+                } else if(allConnections) {
+                    color = nfConnection.defaultLineColor();
                 }
 
                 // if there is only one component selected, get its color otherwise use default
@@ -1592,10 +1596,14 @@
                 if (allProcessors) {
                     $('#fill-color-processor-preview').show();
                     $('#fill-color-label-preview').hide();
-                } else {
+                } else if(allLabels) {
                     $('#fill-color-processor-preview').hide();
                     $('#fill-color-label-preview').show();
-                }
+                } else if(allConnections) {
+                     // Currently no preview for Connections
+                     $('#fill-color-processor-preview').hide();
+                     $('#fill-color-label-preview').hide();
+                 }
 
                 // show the dialog
                 $('#fill-color-dialog').modal('show');

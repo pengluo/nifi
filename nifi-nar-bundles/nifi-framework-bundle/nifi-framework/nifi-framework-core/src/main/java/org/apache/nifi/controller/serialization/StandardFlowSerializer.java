@@ -533,6 +533,8 @@ public class StandardFlowSerializer implements FlowSerializer<Document> {
             destinationGroupId = connection.getDestination().getProcessGroup().getIdentifier();
         }
 
+        addStyle(element, connection.getStyle());
+
         addTextElement(element, "sourceId", sourceId);
         addTextElement(element, "sourceGroupId", sourceGroupId);
         addTextElement(element, "sourceType", sourceType.toString());

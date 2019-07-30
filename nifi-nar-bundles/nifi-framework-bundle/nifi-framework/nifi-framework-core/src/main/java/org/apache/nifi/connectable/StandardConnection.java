@@ -43,6 +43,7 @@ import org.apache.nifi.scheduling.SchedulingStrategy;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -69,6 +70,7 @@ public final class StandardConnection implements Connection, ConnectionEventList
     private final AtomicReference<Collection<Relationship>> relationships;
     private final AtomicInteger labelIndex = new AtomicInteger(1);
     private final AtomicLong zIndex = new AtomicLong(0L);
+    private final AtomicReference<Map<String, String>> style;
     private final AtomicReference<String> versionedComponentId = new AtomicReference<>();
     private final ProcessScheduler scheduler;
     private final FlowFileQueueFactory flowFileQueueFactory;
@@ -82,6 +84,7 @@ public final class StandardConnection implements Connection, ConnectionEventList
         name = new AtomicReference<>(builder.name);
         bendPoints = new AtomicReference<>(Collections.unmodifiableList(new ArrayList<>(builder.bendPoints)));
         processGroup = new AtomicReference<>(builder.processGroup);
+        style = new AtomicReference<>(Collections.unmodifiableMap(builder.style));
         source = builder.source;
         destination = new AtomicReference<>(builder.destination);
         relationships = new AtomicReference<>(Collections.unmodifiableCollection(builder.relationships));
@@ -250,6 +253,18 @@ public final class StandardConnection implements Connection, ConnectionEventList
     }
 
     @Override
+    public Map<String, String> getStyle() {
+        return style.get();
+    }
+
+    @Override
+    public void setStyle(Map<String, String> style) {
+        if (style != null) {
+            this.style.set(Collections.unmodifiableMap(new HashMap<>(style)));
+        }
+    }
+
+    @Override
     public Connectable getSource() {
         return source;
     }
@@ -402,6 +417,7 @@ public final class StandardConnection implements Connection, ConnectionEventList
         private Connectable source;
         private Connectable destination;
         private Collection<Relationship> relationships;
+        private Map<String, String> style;
         private FlowFileQueueFactory flowFileQueueFactory;
         private boolean clustered = false;
 
@@ -445,6 +461,11 @@ public final class StandardConnection implements Connection, ConnectionEventList
             return this;
         }
 
+        public Builder setStyle(final Map<String, String> style){
+            this.style = style;
+            return this;
+        }
+
         public Builder addBendPoint(final Position bendPoint) {
             bendPoints.add(bendPoint);
             return this;
@@ -481,6 +502,10 @@ public final class StandardConnection implements Connection, ConnectionEventList
                     throw new IllegalStateException("Cannot build a Connection without any relationships");
                 }
                 relationships.add(Relationship.ANONYMOUS);
+            }
+
+            if (style == null) {
+                style = new HashMap<>();
             }
 
             return new StandardConnection(this);

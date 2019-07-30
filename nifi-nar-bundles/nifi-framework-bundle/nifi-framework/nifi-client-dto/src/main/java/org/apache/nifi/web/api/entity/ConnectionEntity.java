@@ -23,6 +23,7 @@ import org.apache.nifi.web.api.dto.status.ConnectionStatusDTO;
 
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.List;
+import java.util.Map;
 
 /**
  * A serialized representation of this class can be placed in the entity body of a response to the API. This particular entity holds a reference to a ConnectionDTO.
@@ -196,4 +197,5 @@ public class ConnectionEntity extends ComponentEntity implements Permissible<Con
     public void setDestinationType(String destinationType) {
         this.destinationType = destinationType;
     }
+
 }
